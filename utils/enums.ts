@@ -4,7 +4,8 @@ export enum RaceType {
   harness = '161d9be2-e909-4326-8c2c-35ed71fb460b',
   horse = '4a2788f8-e825-4d36-9894-efd4baf1cfae',
 }
-
+// Used to toggle time filter into either ascending or descending
+// TODO - update to better naming convention - eg "SortByTime"
 export enum TimeFilter {
   ascending = -1,
   descending = 1,

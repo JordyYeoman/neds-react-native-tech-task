@@ -60,8 +60,11 @@ export class HelperMethods {
       let mins = Math.round((time % 3600) / 60);
       return hours + 'h' + mins + 'm';
     }
+    // Failure to pass a correct value will return 0.
+    return 0;
   };
-  /// Method to sort race data based on enum argument passed in
+  // Method to sort race data based on enum argument passed in
+  // TODO - break method down into testable/maintainable functions
   getRacesInSortedOrderForTimeFilter = async (
     data: any,
     sortDirection: TimeFilter,
