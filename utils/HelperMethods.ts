@@ -1,8 +1,7 @@
-import React from 'react';
-import {Text} from 'react-native';
-import {RaceType} from './enums';
+import {RaceType, TimeFilter} from './enums';
 
 export class HelperMethods {
+  // Returns race category string for categoryId
   getRaceTypeForCategoryId(categoryId: string): string {
     switch (categoryId) {
       case RaceType.greyhound:
@@ -61,5 +60,35 @@ export class HelperMethods {
       let mins = Math.round((time % 3600) / 60);
       return hours + 'h' + mins + 'm';
     }
+  };
+  /// Method to sort race data based on enum argument passed in
+  getRacesInSortedOrderForTimeFilter = async (
+    data: any,
+    sortDirection: TimeFilter,
+  ) => {
+    let raceData = data?.data;
+    let sortedRaces = raceData?.next_to_go_ids;
+    try {
+      switch (sortDirection) {
+        case TimeFilter.ascending:
+          sortedRaces.sort(
+            (a: any, b: any) =>
+              raceData.race_summaries[b].advertised_start.seconds -
+              raceData.race_summaries[a].advertised_start.seconds,
+          );
+          return;
+        case TimeFilter.descending:
+          sortedRaces.sort(
+            (a: any, b: any) =>
+              raceData.race_summaries[a].advertised_start.seconds -
+              raceData.race_summaries[b].advertised_start.seconds,
+          );
+          return;
+      }
+    } catch (e) {
+      console.log('Error Sorting Upcoming Races - ERROR: ', e);
+    }
+    raceData.next_to_go_ids = sortedRaces;
+    return sortedRaces;
   };
 }

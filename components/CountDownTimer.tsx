@@ -20,35 +20,31 @@ export const CountDownTimer = ({
   useEffect(() => {
     // Keep the interval ID returned by the setInterval() method in a variable to prevent memory leak
     const intervalId = setInterval(() => {
-      if (typeof formattedTime === 'number') {
-        console.log(formattedTime);
-      }
-      // Call to API if ​advertised_start has exceeded -60.
-      if (
-        typeof formattedTime === 'number' &&
-        formattedTime &&
-        formattedTime < -60
-      ) {
-        console.log('OI we doing it maaa');
-        action();
-      }
       // Method to trigger re-render of countdown component at second.
       setCountDown((prevCount: number) => prevCount + 1);
     }, 1000);
-
     return () => clearInterval(intervalId);
   }, []);
 
+  // Call to API if ​formattedTime has exceeded -60.
+  // Calling the action() method will trigger a re-render of the scrollView lists.
+  if (
+    typeof formattedTime === 'number' &&
+    formattedTime &&
+    formattedTime < -60
+  ) {
+    action();
+  }
+
   return (
     <View style={styles.countDownTimer}>
-      <Text style={[styles.countDownText, {color: textColor}]}>
-        {formattedTime}
-      </Text>
       <TouchableOpacity
         onPress={() => {
           action();
         }}>
-        <Text>Hello</Text>
+        <Text style={[styles.countDownText, {color: textColor}]}>
+          {formattedTime}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -60,7 +56,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     backgroundColor: '#ffffff',
     borderRadius: 5,
-    shadowColor: 'rgba(0, 0, 0, 0.05)',
+    shadowColor: 'rgba(0, 0, 0, 0.25)',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 2,
